@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Breeds Available | Pawsome Puppies</title>
+    <meta name="description"
+        content="Explore our wide variety of premium puppy breeds available for adoption. From Beagles to Yorkies, find your perfect companion today.">
+    <meta name="keywords"
+        content="dog breeds, puppy adoption, beagle puppies, cane corso, yorkie for sale, puppies 2026">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
+    <script src="js/admin-management.js"></script>
+    <script src="js/admin-login-ui.js"></script>
+    <script src="js/breeds-enhancements.js"></script>
+    <script src="js/app.js" defer></script>
+</head>
+
+<body style="padding-top: 100px;">
+
+    <header id="main-header" class="scrolled">
+        <div class="logo-container">
+            <span id="site-logo" role="img" aria-label="Paw Logo">🐾</span>
+            <span id="site-name">Pawsome Puppies</span>
+        </div>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav>
+            <ul id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="breeds.html" class="active">Breeds Available</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li class="mobile-only"><a href="#" id="login-open-mobile">Login</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <button id="theme-toggle" class="theme-toggle-btn">🌓</button>
+            <button class="btn btn-secondary" id="admin-login-header"
+                style="margin-right: 10px; background: #fdfdfd; color: var(--primary-dark); border: 1px solid var(--primary);">Admin</button>
+            <button class="btn btn-primary" id="login-open">Login</button>
+        </div>
+    </header>
+
+    <main style="padding: 2rem 5%;">
+        <h1 id="breeds-main-title" style="text-align: center; margin-bottom: 2rem; color: var(--primary-dark);">Explore
+            Our Popular Breeds</h1>
+
+        <div class="filter-bar glass"
+            style="max-width: 900px; margin: 0 auto 3rem; padding: 1.5rem; border-radius: 20px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Size:</label>
+                <select id="filter-size" class="form-input" style="padding: 0.5rem 1rem; width: auto;">
+                    <option value="all">All Sizes</option>
+                    <option value="small">Tiny & Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large & Giant</option>
+                </select>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Energy:</label>
+                <select id="filter-energy" class="form-input" style="padding: 0.5rem 1rem; width: auto;">
+                    <option value="all">Any Energy</option>
+                    <option value="low">Calm & Chill</option>
+                    <option value="high">Active & Playful</option>
+                </select>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Coat:</label>
+                <select id="filter-coat" class="form-input" style="padding: 0.5rem 1rem; width: auto;">
+                    <option value="all">All Coats</option>
+                    <option value="non-shed">Non-Shedding</option>
+                    <option value="short">Short Hair</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="breeds-grid" id="breeds-container"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.5rem;">
+            <!-- Breed cards will be injected here -->
+        </div>
+
+        <!-- Reservation & Paperwork Information -->
+        <section class="glass"
+            style="margin-top: 6rem; padding: 4rem; border-radius: 40px; background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(188, 108, 37, 0.05) 100%); border: 1px solid rgba(188, 108, 37, 0.1);">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem;">
+                <div>
+                    <h3
+                        style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                        <span>📝</span> Reservation & Fees
+                    </h3>
+                    <p style="color: var(--text-main); line-height: 1.8; font-size: 1rem;">
+                        To secure your favorite puppy, a <strong>$250 non-refundable reservation fee</strong> is
+                        required. This fee holds the puppy for 7 days and is credited toward the total adoption price.
+                    </p>
+                    <p style="margin-top: 15px; color: var(--text-main); line-height: 1.8;">
+                        A <strong>20% down payment</strong> is collected upon signing the initial adoption intent form.
+                    </p>
+                </div>
+                <div>
+                    <h3
+                        style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                        <span>📄</span> Official Paperwork
+                    </h3>
+                    <ul style="list-style: none; padding: 0; color: var(--text-main); line-height: 1.8;">
+                        <li style="margin-bottom: 10px;">✅ AKC or Official Breed Registration</li>
+                        <li style="margin-bottom: 10px;">✅ 1-Year Genetic Health Guarantee</li>
+                        <li style="margin-bottom: 10px;">✅ Signed Health & Adoption Contract</li>
+                        <li>✅ Licensed Vet Health Certification</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3
+                        style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
+                        <span>✅</span> Next Steps
+                    </h3>
+                    <p style="color: var(--text-main); line-height: 1.8;">
+                        After paying the reservation fee, our concierge will contact you to review the health contract.
+                        Once signed, the 20% down payment initiates the final vet check and travel arrangements.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div id="puppy-explorer" style="display: none; margin-top: 5rem; animation: fadeInUp 0.5s ease;">
+            <button class="btn" id="back-to-breeds"
+                style="margin-bottom: 2.5rem; background: white; border: 1px solid var(--primary); color: var(--primary-dark);">&larr;
+                Back to All Breeds</button>
+            <h2 id="selected-breed-name" style="margin-bottom: 2rem; color: var(--primary-dark);"></h2>
+            <div id="puppies-list"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem;">
+                <!-- Puppy cards will be injected here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Detailed Puppy Modal -->
+    <div class="modal glass" id="puppy-modal">
+        <div class="modal-content glass" style="max-width: 800px;">
+            <span class="close-modal">&times;</span>
+            <div id="puppy-details">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal glass" id="auth-modal">
+        <div class="modal-content glass">
+            <span class="close-modal">&times;</span>
+            <div id="login-form">
+                <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">Login</h2>
+                <input type="email" id="login-email" placeholder="Email Address" class="form-input">
+                <input type="password" id="login-password" placeholder="Password" class="form-input">
+                <div style="display: flex; align-items: center; gap: 8px; margin: 10px 0;">
+                    <input type="checkbox" id="remember-me" style="width: 18px; height: 18px; cursor: pointer;">
+                    <label for="remember-me" style="font-size: 0.9rem; cursor: pointer;">Remember Me</label>
+                </div>
+                <button class="btn btn-primary" id="login-btn-action" style="width: 100%; margin-top: 0.5rem;">Sign
+                    In</button>
+                <p style="margin-top: 20px; text-align: center;">New here? <a href="#" id="toggle-signup"
+                        style="color: var(--primary-dark); font-weight: 600;">Create Account</a></p>
+                <p style="text-align: center; margin-top: 10px;"><a href="#"
+                        style="font-size: 0.85rem; color: var(--text-muted);">Forgot Password?</a></p>
+            </div>
+            <div id="signup-form" style="display: none;">
+                <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">Create Account</h2>
+                <input type="text" id="signup-name" placeholder="Full Name" class="form-input">
+                <input type="email" id="signup-email" placeholder="Email Address" class="form-input">
+                <input type="password" id="signup-password" placeholder="Password" class="form-input">
+                <button class="btn btn-primary" id="signup-btn-action" style="width: 100%; margin-top: 1rem;">Sign
+                    Up</button>
+                <p style="margin-top: 20px; text-align: center;">Already have an account? <a href="#" id="toggle-login"
+                        style="color: var(--primary-dark); font-weight: 600;">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Edit Modal -->
+    <div class="modal glass" id="admin-edit-modal" style="display:none; z-index: 10001;">
+        <div class="modal-content glass">
+            <span class="close-modal" id="close-admin-modal">&times;</span>
+            <h2 id="admin-modal-title" style="color: var(--primary-dark); margin-bottom: 1.5rem;">Edit Content</h2>
+            <div id="admin-form-container">
+                <!-- Dynamically filled -->
+            </div>
+            <button class="btn btn-primary" id="admin-save-btn" style="width: 100%; margin-top: 1rem;">Save
+                Changes</button>
+        </div>
+    </div>
+
+    <footer
+        style="margin-top: 120px; padding: 4rem 5%; background: var(--secondary); text-align: center; border-radius: 50px 50px 0 0;">
+        <div class="glass"
+            style="max-width: 600px; margin: 0 auto 3rem; padding: 2.5rem; border-radius: 30px; background: rgba(255,255,255,0.4);">
+            <h3 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Never Miss a Puppy! 🐶</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">Subscribe to get instant
+                alerts whenever a new puppy arrives.</p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="email" id="newsletter-email" placeholder="Your Email Address" class="form-input"
+                    style="flex: 1; min-width: 250px;">
+                <button id="newsletter-signup-btn" class="btn btn-primary">Get Alerts</button>
+            </div>
+        </div>
+        <p style="font-weight: 500;">&copy; 2026 Pawsome Puppies for Adoption. All rights reserved.</p>
+        <div style="margin-top: 1rem; opacity: 0.6; display: flex; justify-content: center; gap: 2rem;">
+            <a href="#" id="admin-login-footer" style="text-decoration:none; color:inherit;">Admin Login</a>
+        </div>
+    </footer>
+
+</body>
+
+</html>

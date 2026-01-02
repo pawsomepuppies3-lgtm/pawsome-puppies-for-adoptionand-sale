@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Contact Us | Pawsome Puppies</title>
+    <meta name="description"
+        content="Get in touch with Pawsome Puppies. We're here to help you find your perfect furry companion with professional support and care.">
+    <meta name="keywords" content="puppy adoption, contact pawsome puppies, dog breeders, pet support">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
+    <script src="js/admin-management.js"></script>
+    <script src="js/admin-login-ui.js"></script>
+    <script src="js/contact-integrations.js"></script>
+    <script src="js/multi-customer-chat.js"></script>
+    <script src="js/chat-enhancements.js"></script>
+    <script src="js/app.js" defer></script>
+</head>
+
+<body class="chat-page-body">
+
+    <header id="main-header" class="scrolled">
+        <div class="logo-container">
+            <span id="site-logo" role="img" aria-label="Paw Logo">🐾</span>
+            <span id="site-name">Pawsome Puppies</span>
+        </div>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav>
+            <ul id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="breeds.html">Breeds Available</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <button id="theme-toggle" class="theme-toggle-btn">🌓</button>
+            <button class="btn btn-secondary" id="admin-login-header"
+                style="margin-right: 10px; background: #fdfdfd; color: var(--primary-dark); border: 1px solid var(--primary);">Admin</button>
+        </div>
+    </header>
+
+    <div class="chat-app-container wider-layout">
+        <!-- Sidebar for Admin (Hidden for regular users) -->
+        <aside class="chat-sidebar" id="admin-sidebar" style="display: none;">
+            <div class="sidebar-header">
+                <h3 style="color:var(--primary-dark);">Conversations</h3>
+                <div class="search-users">
+                    <input type="text" placeholder="Search customers..." id="user-search">
+                </div>
+            </div>
+            <div class="user-list" id="chat-user-list">
+                <!-- Injected via app.js -->
+                <div class="empty-list-msg">No active chats</div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Window -->
+        <main class="chat-window">
+            <div class="chat-header">
+                <div class="chat-contact-info">
+                    <div class="avatar" id="chat-avatar">P</div>
+                    <div class="details">
+                        <h2 id="chat-with-name">Pawsome Support</h2>
+                        <span class="status" id="chat-status">Always here to help</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="messages-container" id="chat-messages">
+                <div class="date-divider">Today</div>
+                <!-- Messages Injected here -->
+            </div>
+
+            <!-- Voice Mail Recording UI -->
+            <div class="voice-recording-overlay" id="voice-overlay" style="display: none;">
+                <div class="visualizer">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <span id="recording-time">0:00</span>
+                <div class="voice-btns">
+                    <button class="btn btn-danger" id="cancel-voice">Discard</button>
+                    <button class="btn btn-primary" id="stop-voice">Send Voice Mail</button>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="input-actions-left">
+                    <button class="icon-btn" id="emoji-trigger">😊</button>
+                    <button class="icon-btn" id="media-trigger">📎</button>
+                    <input type="file" id="chat-media-input" style="display: none;" accept="image/*,video/*">
+                    <button class="icon-btn" id="payment-trigger" title="Send Payment Form">💳</button>
+                </div>
+
+                <div class="input-wrapper">
+                    <textarea id="chat-input" placeholder="Type a message..." rows="1"></textarea>
+                </div>
+
+                <button class="send-btn" id="chat-send-btn">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor"
+                            d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Emoji Picker (Hidden) -->
+            <div id="emoji-picker" class="emoji-picker" style="display: none;">
+                <span class="emoji-item">😊</span><span class="emoji-item">😂</span><span class="emoji-item">❤️</span>
+                <span class="emoji-item">🐶</span><span class="emoji-item">🐾</span><span class="emoji-item">🦴</span>
+                <span class="emoji-item">🏠</span><span class="emoji-item">✨</span><span class="emoji-item">🙏</span>
+                <span class="emoji-item">👍</span><span class="emoji-item">🎉</span><span class="emoji-item">😍</span>
+                <span class="emoji-item">🐕</span><span class="emoji-item">🐩</span><span class="emoji-item">🍗</span>
+                <span class="emoji-item">💰</span><span class="emoji-item">💳</span><span class="emoji-item">✅</span>
+            </div>
+
+            <!-- Payment Form Modal (Hidden) -->
+            <div id="payment-modal" class="chat-modal" style="display: none;">
+                <div class="chat-modal-content glass">
+                    <h3>Select Payment Method</h3>
+                    <div class="payment-options">
+                        <button class="payment-opt" data-type="Zelle">Zelle</button>
+                        <button class="payment-opt" data-type="CashApp">CashApp</button>
+                        <button class="payment-opt" data-type="PayPal">PayPal</button>
+                        <button class="payment-opt" data-type="Bank Transfer">Bank Transfer</button>
+                        <button class="payment-opt" data-type="Apple Pay">Apple Pay</button>
+                    </div>
+                    <button class="btn btn-secondary close-chat-modal">Cancel</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Social Media & Contact Information Section -->
+        <aside class="contact-sidebar" id="contact-sidebar">
+            <div class="sidebar-section glass" style="padding: 25px; border-radius: 25px; margin-bottom: 20px;">
+                <h3 style="color: var(--primary-dark); margin-bottom: 20px; font-size: 1.3rem;">📱 Connect With Us</h3>
+                <div id="social-media-links">
+                    <!-- Dynamically filled by app.js -->
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Social media links will appear here</p>
+                </div>
+            </div>
+
+            <div class="sidebar-section glass" id="sidebar-auth-panel"
+                style="padding: 25px; border-radius: 25px; margin-bottom: 20px;">
+                <h3 style="color: var(--primary-dark); margin-bottom: 15px; font-size: 1.3rem;">🔐 Customer Portal</h3>
+
+                <!-- Login Form (Shown to Guests) -->
+                <form id="sidebar-login-form" style="display: flex; flex-direction: column; gap: 10px;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">Login to chat for
+                        real-time support and negotiate adoption fees.</p>
+                    <input type="email" id="side-login-email" placeholder="Email Address" class="form-input"
+                        style="margin: 0; padding: 12px 18px; font-size: 0.95rem; background:white;" required>
+                    <input type="password" id="side-login-pass" placeholder="Password" class="form-input"
+                        style="margin: 0; padding: 12px 18px; font-size: 0.95rem; background:white;" required>
+                    <label
+                        style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted); cursor:pointer; margin-top:5px;">
+                        <input type="checkbox" id="side-remember-me" style="width:16px; height:16px; cursor:pointer;">
+                        Remember Me
+                    </label>
+                    <button type="submit" class="btn btn-primary"
+                        style="width: 100%; padding: 12px; margin-top: 5px;">Login / Sign Up</button>
+                    <small style="text-align:center; color: var(--text-muted); cursor: pointer;"
+                        onclick="document.getElementById('toggle-signup').click(); document.getElementById('auth-modal').style.display='flex';">No
+                        account? Register here</small>
+                </form>
+
+                <!-- Profile View (Shown to Customers) -->
+                <div id="sidebar-user-profile" style="display: none; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">👤</div>
+                    <h4 id="side-user-name" style="margin-bottom: 5px;">Welcome Back!</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">You have full features
+                        access.</p>
+                    <button class="btn btn-secondary" style="width: 100%; font-size: 0.8rem;"
+                        onclick="localStorage.removeItem('currentUserEmail'); localStorage.removeItem('isCustomer'); location.reload();">Logout</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section glass" style="padding: 25px; border-radius: 25px; margin-bottom: 20px;">
+                <h3 style="color: var(--primary-dark); margin-bottom: 10px; font-size: 1.2rem;">🌟 Our Unique Model</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                    We are not only sellers but also active buyers of puppies. We adopt puppies from other lower-end
+                    markets or private pet homes and provide them with premium care, medical attention, and training
+                    before finding them their forever families.
+                </p>
+            </div>
+
+            <div class="sidebar-section glass" style="padding: 25px; border-radius: 25px;">
+                <h3 style="color: var(--primary-dark); margin-bottom: 15px; font-size: 1.3rem;">💳 Payment Methods</h3>
+                <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem;">We accept various payment
+                    methods. Click below to discuss payment options with our team.</p>
+                <button id="negotiate-payment-btn" class="btn btn-premium"
+                    style="width: 100%; padding: 12px; display: none;">💬
+                    Negotiate Payment</button>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.1);">
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Accepted methods: Zelle, CashApp, PayPal,
+                        Bank Transfer, Apple Pay, Gift Cards</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+</body>
+
+</html>

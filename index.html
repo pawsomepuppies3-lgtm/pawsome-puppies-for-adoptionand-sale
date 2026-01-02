@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Pawsome Puppies | Premium Adoption Gallery</title>
+    <meta name="description"
+        content="Discover your new best friend at Pawsome Puppies. We offer a curated gallery of healthy, happy puppies ready for adoption.">
+    <meta name="keywords" content="puppy adoption, buy puppies, dog gallery, beagle, cane corso, yorkie">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+
+    <script src="js/admin-management.js"></script>
+    <script src="js/admin-login-ui.js"></script>
+    <script src="js/gallery-management.js"></script>
+    <script src="js/app.js" defer></script>
+</head>
+
+<body>
+
+    <header id="main-header">
+        <div class="logo-container">
+            <span id="site-logo" role="img" aria-label="Paw Logo">🐾</span>
+            <span id="site-name">Pawsome Puppies</span>
+        </div>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav>
+            <ul id="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="breeds.html">Breeds Available</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <!-- Mobile only login -->
+                <li class="mobile-only"><a href="#" id="login-open-mobile">Login</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <button id="theme-toggle" class="theme-toggle-btn">🌓</button>
+            <button class="btn btn-secondary" id="admin-login-header"
+                style="margin-right: 10px; background: #fdfdfd; color: var(--primary-dark); border: 1px solid var(--primary);">Admin</button>
+            <button class="btn btn-primary" id="login-open">Login</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home-hero">
+            <h1>Find Your New Best Friend</h1>
+            <p>High-class puppies for adoption in a loving environment.</p>
+
+            <div class="search-container" style="margin-top: 2rem;">
+                <input type="text" class="search-bar" placeholder="Search for breeds (e.g. Golden Retriever, Husky)..."
+                    id="breed-search">
+                <button class="search-btn" id="search-trigger">Search</button>
+            </div>
+        </section>
+
+        <section class="info-snippet glass"
+            style="margin: -60px 10%; padding: 3.5rem; border-radius: 40px; position: relative; z-index: 10;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem;">
+                <div>
+                    <h3 style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 1rem;">Our Mission</h3>
+                    <p>We believe every puppy deserves a "pawsome" life. We connect healthy, happy pups with
+                        responsible, loving families through a premium adoption process.</p>
+                </div>
+                <div>
+                    <h3 style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 1rem;">Why Choose Us?</h3>
+                    <p>Verified breeds, complete health records, and a seamless interaction experience designed for
+                        modern families in 2026.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Happy Tails Section -->
+        <section style="padding: 100px 10%; background: #fff;">
+            <div style="text-align: center; margin-bottom: 60px;">
+                <h6
+                    style="text-transform: uppercase; color: var(--primary); letter-spacing: 3px; font-weight: 700; margin-bottom: 10px;">
+                    Success Stories</h6>
+                <h2 style="font-size: 3rem; color: var(--primary-dark); font-weight: 800;">Happy Tails Gallery</h2>
+                <div
+                    style="width: 80px; height: 4px; background: var(--primary); margin: 20px auto; border-radius: 2px;">
+                </div>
+            </div>
+
+            <div id="stories-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <!-- Stories will be injected by app.js -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal glass" id="auth-modal">
+        <div class="modal-content glass">
+            <span class="close-modal">&times;</span>
+            <div id="login-form">
+                <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">Login</h2>
+                <input type="email" id="login-email" placeholder="Email Address" class="form-input">
+                <input type="password" id="login-password" placeholder="Password" class="form-input">
+                <div style="display: flex; align-items: center; gap: 8px; margin: 10px 0;">
+                    <input type="checkbox" id="remember-me" style="width: 18px; height: 18px; cursor: pointer;">
+                    <label for="remember-me" style="font-size: 0.9rem; cursor: pointer;">Remember Me</label>
+                </div>
+                <button class="btn btn-primary" id="login-btn-action" style="width: 100%; margin-top: 0.5rem;">Sign
+                    In</button>
+                <p style="margin-top: 20px; text-align: center;">New here? <a href="#" id="toggle-signup"
+                        style="color: var(--primary-dark); font-weight: 600;">Create Account</a></p>
+                <p style="text-align: center; margin-top: 10px;"><a href="#"
+                        style="font-size: 0.85rem; color: var(--text-muted);">Forgot Password?</a></p>
+            </div>
+            <div id="signup-form" style="display: none;">
+                <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">Create Account</h2>
+                <input type="text" id="signup-name" placeholder="Full Name" class="form-input">
+                <input type="email" id="signup-email" placeholder="Email Address" class="form-input">
+                <input type="password" id="signup-password" placeholder="Password" class="form-input">
+                <button class="btn btn-primary" id="signup-btn-action" style="width: 100%; margin-top: 1rem;">Sign
+                    Up</button>
+                <p style="margin-top: 20px; text-align: center;">Already have an account? <a href="#" id="toggle-login"
+                        style="color: var(--primary-dark); font-weight: 600;">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Edit Modal -->
+    <div class="modal glass" id="admin-edit-modal" style="display:none; z-index: 10001;">
+        <div class="modal-content glass">
+            <span class="close-modal" id="close-admin-modal">&times;</span>
+            <h2 id="admin-modal-title" style="color: var(--primary-dark); margin-bottom: 1.5rem;">Edit Content</h2>
+            <div id="admin-form-container">
+                <!-- Dynamically filled -->
+            </div>
+            <button class="btn btn-primary" id="admin-save-btn" style="width: 100%; margin-top: 1rem;">Save
+                Changes</button>
+        </div>
+    </div>
+
+    <footer
+        style="margin-top: 120px; padding: 4rem 5%; background: var(--secondary); text-align: center; border-radius: 50px 50px 0 0;">
+        <div class="glass"
+            style="max-width: 600px; margin: 0 auto 3rem; padding: 2.5rem; border-radius: 30px; background: rgba(255,255,255,0.4);">
+            <h3 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Never Miss a Puppy! 🐶</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem;">Subscribe to get instant
+                alerts whenever a new puppy arrives.</p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="email" id="newsletter-email" placeholder="Your Email Address" class="form-input"
+                    style="flex: 1; min-width: 250px;">
+                <button id="newsletter-signup-btn" class="btn btn-primary">Get Alerts</button>
+            </div>
+        </div>
+        <p style="font-weight: 500;">&copy; 2026 Pawsome Puppies for Adoption. All rights reserved.</p>
+        <div style="margin-top: 1rem; opacity: 0.6; display: flex; justify-content: center; gap: 2rem;">
+            <span>Privacy Policy</span>
+            <span>Terms of Service</span>
+            <span>FAQ</span>
+            <a href="#" id="admin-login-footer" style="text-decoration:none; color:inherit;">Admin Login</a>
+        </div>
+    </footer>
+
+</body>
+
+</html>
